@@ -1,7 +1,9 @@
 package main
 
-import explorer "github.com/coseo12/nomacoin/explorer/templates"
+import (
+	"github.com/coseo12/nomacoin/rest"
+)
 
 func main() {
-	explorer.Start()
+	rest.Start(4000)
 }
