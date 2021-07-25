@@ -1,9 +1,7 @@
 package main
 
-import (
-	"github.com/coseo12/nomacoin/rest"
-)
+import "github.com/coseo12/nomacoin/cli"
 
 func main() {
-	rest.Start(4000)
+	cli.Start()
 }
