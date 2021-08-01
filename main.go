@@ -1,7 +1,10 @@
 package main
 
-import "github.com/coseo12/nomacoin/cli"
+import (
+	"github.com/coseo12/nomacoin/blockchain"
+)
 
 func main() {
-	cli.Start()
+	blockchain.Blockchain()
+
 }
