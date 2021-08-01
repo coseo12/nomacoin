@@ -23,3 +23,15 @@ Packages description
 - [Gorilla](https://github.com/gorilla/mux)
 
 - [BoltDB](https://github.com/boltdb/bolt)
+
+- [BoltBrowser](https://github.com/br0xen/boltbrowser)
+
+  ~/.zshrc
+
+  ```
+  export GOPATH=$HOME/go
+  export PATH=$PATH:$GOPATH/bin
+  ```
+
+- [boltdbweb](https://github.com/evnix/boltdbweb)
+  boltdbweb --db-name=blockchain.db
