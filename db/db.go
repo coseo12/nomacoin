@@ -50,11 +50,20 @@ func SaveBlockchain(data []byte) {
 
 func Checkpoint() []byte {
 	var data []byte
-	err := DB().View(func(t *bolt.Tx) error {
+	DB().View(func(t *bolt.Tx) error {
 		bucket := t.Bucket([]byte(dataBucket))
 		data = bucket.Get([]byte(checkpoint))
 		return nil
 	})
-	utils.HandleErr(err)
+	return data
+}
+
+func Block(hash string) []byte {
+	var data []byte
+	DB().View(func(t *bolt.Tx) error {
+		bucket := t.Bucket([]byte(blocksBucket))
+		data = bucket.Get([]byte(hash))
+		return nil
+	})
 	return data
 }
