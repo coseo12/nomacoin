@@ -16,6 +16,10 @@ Packages description
 
 - cli: Command Line Interface with flag
 
+- db: Interface of database with BoltDB
+
 ## Dependency
 
 - [Gorilla](https://github.com/gorilla/mux)
+
+- [BoltDB](https://github.com/boltdb/bolt)
