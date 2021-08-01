@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/coseo12/nomacoin/blockchain"
 	"github.com/coseo12/nomacoin/cli"
+	"github.com/coseo12/nomacoin/db"
 )
 
 func main() {
-	blockchain.Blockchain()
+	defer db.Close()
 	cli.Start()
 }

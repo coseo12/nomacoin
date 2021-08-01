@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/coseo12/nomacoin/blockchain"
+	"github.com/coseo12/nomacoin/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -64,14 +65,12 @@ func documentation(w http.ResponseWriter, r *http.Request) {
 func blocks(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		return
-		// json.NewEncoder(w).Encode(blockchain.GetBlockchain().AllBlocks())
+		json.NewEncoder(w).Encode(blockchain.Blockchain().Blocks())
 	case "POST":
-		return
-		// var addBlockBody addBlockBody
-		// utils.HandleErr(json.NewDecoder(r.Body).Decode(&addBlockBody))
-		// blockchain.GetBlockchain().AddBlock(addBlockBody.Message)
-		// w.WriteHeader(http.StatusCreated)
+		var addBlockBody addBlockBody
+		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addBlockBody))
+		blockchain.Blockchain().AddBlock(addBlockBody.Message)
+		w.WriteHeader(http.StatusCreated)
 	}
 }
 
