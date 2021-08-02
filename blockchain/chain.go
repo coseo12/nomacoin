@@ -8,8 +8,8 @@ import (
 )
 
 type blockchain struct {
-	NewstHash string `json:"newstHash"`
-	Height    int    `json:"height"`
+	NewestHash string `json:"NewestHash"`
+	Height     int    `json:"height"`
 }
 
 var b *blockchain
@@ -24,15 +24,15 @@ func (b *blockchain) persist() {
 }
 
 func (b *blockchain) AddBlock(data string) {
-	block := createBlock(data, b.NewstHash, b.Height+1)
-	b.NewstHash = block.Hash
+	block := createBlock(data, b.NewestHash, b.Height+1)
+	b.NewestHash = block.Hash
 	b.Height = block.Height
 	b.persist()
 }
 
 func (b *blockchain) Blocks() []*Block {
 	var blocks []*Block
-	hashCursor := b.NewstHash
+	hashCursor := b.NewestHash
 	for {
 		block, _ := FindBlock(hashCursor)
 		blocks = append(blocks, block)
