@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/coseo12/nomacoin/blockchain"
-	"github.com/coseo12/nomacoin/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -25,10 +24,6 @@ type urlDescription struct {
 	Method      string `json:"method"`
 	Description string `json:"description"`
 	Payload     string `json:"payload,omitempty"`
-}
-
-type addBlockBody struct {
-	Message string
 }
 
 type errorResponse struct {
@@ -72,9 +67,7 @@ func blocks(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		json.NewEncoder(w).Encode(blockchain.Blockchain().Blocks())
 	case "POST":
-		var addBlockBody addBlockBody
-		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addBlockBody))
-		blockchain.Blockchain().AddBlock(addBlockBody.Message)
+		blockchain.Blockchain().AddBlock()
 		w.WriteHeader(http.StatusCreated)
 	}
 }
