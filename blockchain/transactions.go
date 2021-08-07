@@ -1,6 +1,7 @@
 package blockchain
 
 import (
+	"errors"
 	"time"
 
 	"github.com/coseo12/nomacoin/utils"
@@ -62,7 +63,30 @@ func makeCoinbaseTx(address string) *Tx {
 }
 
 func makeTx(from, to string, amount int) (*Tx, error) {
-
+	if Blockchain().BalanceByAddress(from) < amount {
+		return nil, errors.New("not enoguh amount")
+	}
+	var txOuts []*TxOut
+	var txIns []*TxIn
+	total := 0
+	uTxOuts := Blockchain().UTxOutsByAddress(from)
+	for _, uTxOut := range uTxOuts {
+		if total > amount {
+			break
+		}
+		txIn := &TxIn{uTxOut.TxId, uTxOut.Index, from}
+		txIns = append(txIns, txIn)
+		total += uTxOut.Amount
+	}
+	if change := total - amount; change != 0 {
+		changeTotal := &TxOut{from, change}
+		txOuts = append(txOuts, changeTotal)
+	}
+	txOut := &TxOut{to, amount}
+	txOuts = append(txOuts, txOut)
+	tx := &Tx{Id: "", Timestamp: int(time.Now().Unix()), TxIns: txIns, TxOuts: txOuts}
+	tx.getId()
+	return tx, nil
 }
 
 func (m *mempool) AddTx(to string, amount int) error {
