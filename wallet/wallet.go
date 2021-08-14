@@ -1,37 +1,33 @@
 package wallet
 
 import (
-	"crypto/x509"
-	"encoding/hex"
-	"fmt"
-	"math/big"
-
-	"github.com/coseo12/nomacoin/utils"
+	"crypto/ecdsa"
+	"os"
 )
 
 const (
-	signature     string = "9d325800c790b68a6ce28d65987df3403cf3c5a5228bb4d9f5dc0f8a1e078205249a4e8c616680ee23253b2b01a1431b94fbfe1764f61b1ad177b0ecdd9a9852"
-	privateKey    string = "3077020101042034ce186c4d93c3e03e843911dabeddb0c408dae484adaef30222bbb3dc7e6eb8a00a06082a8648ce3d030107a144034200044cd3ad7260d1b4b1a7c2c93cc8c6bc6aeaad8f3e775e919eecc3ec404eb349e1bc3e57bc92a76b82f6a810e4d60ba08d8698eea2a1287483b610a8da356f8392"
-	hashedMessage string = "c33084feaa65adbbbebd0c9bf292a26ffc6dea97b170d88e501ab4865591aafd"
+	signature     string = "a30f035c8d44dea5c1355a963e18e0a9426622cb3467f8b553538099ffab6fabc775b6d9a9014cd01be0436c980cf6deec7e4cacaa0258d7ecc3e77c329ab773"
+	privateKey    string = "307702010104204eb9438b09d338be90fdc55d9391d4d5e10f620ca458818a3941e0bd400c2514a00a06082a8648ce3d030107a14403420004cf39c60bcf171dfdb10d9d51345558c522169e23f4c148c80658cac50303f0e7d410fe4990f2835793ab6fc5f53d81260346deb6dc38d2041f35d88c31f7fd9c"
+	hashedMessage string = "1c5863cd55b5a4413fd59f054af57ba3c75c0698b3851d70f99b8de2d5c7338f"
 )
 
-func Start() {
-	privateByte, err := hex.DecodeString(privateKey)
-	utils.HandleErr(err)
+type wallet struct {
+	privateKey *ecdsa.PrivateKey
+}
 
-	restoredKey, err := x509.ParseECPrivateKey(privateByte)
-	utils.HandleErr(err)
+var w *wallet
 
-	signatureByte, err := hex.DecodeString(signature)
-	utils.HandleErr(err)
+func hasWalletFile() bool {
+	_, err := os.Stat("nomadcoin.wallet")
+	return os.IsNotExist(err)
+}
 
-	rBytes := signatureByte[:len(signatureByte)/2]
-	sBytes := signatureByte[len(signatureByte)/2:]
-
-	var bigR, bigS = big.Int{}, big.Int{}
-
-	bigR.SetBytes(rBytes)
-	bigS.SetBytes(sBytes)
-
-	fmt.Println(bigR, bigS)
+func Wallet() *wallet {
+	if w == nil {
+		if hasWalletFile() {
+			// yes -> restore from file
+		}
+		// no -> crate prv key, save to file
+	}
+	return w
 }
