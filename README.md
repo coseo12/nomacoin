@@ -18,6 +18,8 @@ Packages description
 
 - db: Interface of database with BoltDB
 
+- wallet: Wallet Packages
+
 ## Dependency
 
 - [Gorilla](https://github.com/gorilla/mux)

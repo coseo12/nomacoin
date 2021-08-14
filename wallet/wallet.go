@@ -1,28 +1,11 @@
 package wallet
 
-import (
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
-	"encoding/hex"
-	"fmt"
-
-	"github.com/coseo12/nomacoin/utils"
+const (
+	signature     string = "9d325800c790b68a6ce28d65987df3403cf3c5a5228bb4d9f5dc0f8a1e078205249a4e8c616680ee23253b2b01a1431b94fbfe1764f61b1ad177b0ecdd9a9852"
+	privateKey    string = "3077020101042034ce186c4d93c3e03e843911dabeddb0c408dae484adaef30222bbb3dc7e6eb8a00a06082a8648ce3d030107a144034200044cd3ad7260d1b4b1a7c2c93cc8c6bc6aeaad8f3e775e919eecc3ec404eb349e1bc3e57bc92a76b82f6a810e4d60ba08d8698eea2a1287483b610a8da356f8392"
+	hashedMessage string = "c33084feaa65adbbbebd0c9bf292a26ffc6dea97b170d88e501ab4865591aafd"
 )
 
 func Start() {
-	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	utils.HandleErr(err)
 
-	message := "I love you"
-
-	hashedMessage := utils.Hash(message)
-
-	hashAsByte, err := hex.DecodeString(hashedMessage)
-	utils.HandleErr(err)
-
-	r, s, err := ecdsa.Sign(rand.Reader, privateKey, hashAsByte)
-	utils.HandleErr(err)
-
-	fmt.Printf("R:%d\nS:%d\n", r, s)
 }
