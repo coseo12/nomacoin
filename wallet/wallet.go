@@ -5,7 +5,6 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/x509"
-	"fmt"
 	"os"
 
 	"github.com/coseo12/nomacoin/utils"
@@ -17,6 +16,7 @@ const (
 
 type wallet struct {
 	privateKey *ecdsa.PrivateKey
+	address    string
 }
 
 var w *wallet
@@ -39,17 +39,29 @@ func persistKey(key *ecdsa.PrivateKey) {
 	utils.HandleErr(err)
 }
 
+func restoreKey() *ecdsa.PrivateKey {
+	keyAsBytes, err := os.ReadFile(filename)
+	utils.HandleErr(err)
+	key, err := x509.ParseECPrivateKey(keyAsBytes)
+	utils.HandleErr(err)
+	return key
+}
+
+func aFromKey(key *ecdsa.PrivateKey) string {
+
+}
+
 func Wallet() *wallet {
 	if w == nil {
 		w = &wallet{}
 		if hasWalletFile() {
-			fmt.Println("??")
-			// yes -> restore from file
+			w.privateKey = restoreKey()
 		} else {
 			key := createPrivatekey()
 			persistKey(key)
 			w.privateKey = key
 		}
+		w.address = aFromKey(w.privateKey)
 	}
 	return w
 }
