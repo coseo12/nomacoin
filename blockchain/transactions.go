@@ -26,20 +26,38 @@ type Tx struct {
 }
 
 type TxIn struct {
-	TxId  string `json:"txId"`
-	Index int    `json:"index"`
-	Owner string `json:"owner"`
+	TxId      string `json:"txId"`
+	Index     int    `json:"index"`
+	Signature string `json:"signature"`
 }
 
 type TxOut struct {
-	Owner  string `json:"owner"`
-	Amount int    `json:"amount"`
+	Address string `json:"address"`
+	Amount  int    `json:"amount"`
 }
 
 type UTxOut struct {
 	TxId   string `json:"txId"`
 	Index  int    `json:"index"`
 	Amount int    `json:"amount"`
+}
+
+func (t *Tx) getId() {
+	t.Id = utils.Hash(t)
+}
+
+func (t *Tx) sign() {
+	for _, txIn := range t.TxIns {
+		txIn.Signature = wallet.Sign(t.Id, wallet.Wallet())
+	}
+}
+
+func validate(tx *Tx) bool {
+	valid := true
+	for _, txIn := range tx.TxIns {
+		prevTx := FindTx(Blockchain(), txIn.TxId)
+	}
+	return valid
 }
 
 func isOnMempool(uTxOut *UTxOut) bool {
@@ -54,10 +72,6 @@ Outer:
 		}
 	}
 	return exists
-}
-
-func (t *Tx) getId() {
-	t.Id = utils.Hash(t)
 }
 
 func makeCoinbaseTx(address string) *Tx {
@@ -101,6 +115,7 @@ func makeTx(from, to string, amount int) (*Tx, error) {
 	txOuts = append(txOuts, txOut)
 	tx := &Tx{Id: "", Timestamp: int(time.Now().Unix()), TxIns: txIns, TxOuts: txOuts}
 	tx.getId()
+	tx.sign()
 	return tx, nil
 }
 
