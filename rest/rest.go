@@ -8,6 +8,7 @@ import (
 
 	"github.com/coseo12/nomacoin/blockchain"
 	"github.com/coseo12/nomacoin/utils"
+	"github.com/coseo12/nomacoin/wallet"
 	"github.com/gorilla/mux"
 )
 
@@ -30,6 +31,10 @@ type urlDescription struct {
 type balanceResponse struct {
 	Address string `json:"address"`
 	Balance int    `json:"balance"`
+}
+
+type myWalletResponse struct {
+	Address string `json:"address"`
 }
 type errorResponse struct {
 	ErrorMessage string `json:"errorMessage"`
@@ -77,6 +82,11 @@ func documentation(w http.ResponseWriter, r *http.Request) {
 			URL:         url("/mempool"),
 			Method:      "GET",
 			Description: "Get Mempool",
+		},
+		{
+			URL:         url("/wallet"),
+			Method:      "GET",
+			Description: "Get Address",
 		},
 		{
 			URL:         url("/transactions"),
@@ -137,6 +147,11 @@ func mempool(w http.ResponseWriter, r *http.Request) {
 	utils.HandleErr(json.NewEncoder(w).Encode(blockchain.Mempool.Txs))
 }
 
+func myWallet(w http.ResponseWriter, r *http.Request) {
+	address := wallet.Wallet().Address
+	json.NewEncoder(w).Encode(myWalletResponse{Address: address})
+}
+
 func transactions(w http.ResponseWriter, r *http.Request) {
 	var payload addTxPayload
 	utils.HandleErr(json.NewDecoder(r.Body).Decode(&payload))
@@ -157,6 +172,7 @@ func Start(aPort int) {
 	router.HandleFunc("/blocks/{hash:[a-f0-9]+}", block).Methods("GET")
 	router.HandleFunc("/balance/{address}", balance).Methods("GET")
 	router.HandleFunc("/mempool", mempool).Methods("GET")
+	router.HandleFunc("/wallet", myWallet).Methods("GET")
 	router.HandleFunc("/transactions", transactions).Methods("POST")
 	fmt.Printf("Listening on http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, router))
