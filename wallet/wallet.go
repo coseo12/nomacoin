@@ -5,6 +5,8 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/x509"
+	"encoding/hex"
+	"fmt"
 	"os"
 
 	"github.com/coseo12/nomacoin/utils"
@@ -16,7 +18,7 @@ const (
 
 type wallet struct {
 	privateKey *ecdsa.PrivateKey
-	address    string
+	Address    string
 }
 
 var w *wallet
@@ -48,6 +50,20 @@ func restoreKey() *ecdsa.PrivateKey {
 }
 
 func aFromKey(key *ecdsa.PrivateKey) string {
+	z := append(key.X.Bytes(), key.Y.Bytes()...)
+	return fmt.Sprintf("%x", z)
+}
+
+func Sign(payload string, w *wallet) string {
+	payloadAsBytes, err := hex.DecodeString(payload)
+	utils.HandleErr(err)
+	r, s, err := ecdsa.Sign(rand.Reader, w.privateKey, payloadAsBytes)
+	utils.HandleErr(err)
+	signature := append(r.Bytes(), s.Bytes()...)
+	return fmt.Sprintf("%x", signature)
+}
+
+func verify(signature, payload, publicKey string) bool {
 
 }
 
@@ -61,7 +77,7 @@ func Wallet() *wallet {
 			persistKey(key)
 			w.privateKey = key
 		}
-		w.address = aFromKey(w.privateKey)
+		w.Address = aFromKey(w.privateKey)
 	}
 	return w
 }
