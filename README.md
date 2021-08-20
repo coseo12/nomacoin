@@ -20,6 +20,8 @@ Packages description
 
 - wallet: Wallet Packages
 
+- p2p: peer to peer network
+
 ## Dependency
 
 - [Gorilla](https://github.com/gorilla/mux)
