@@ -20,16 +20,16 @@ func Upgrade(w http.ResponseWriter, r *http.Request) {
 	}
 	conn, err := upgrader.Upgrade(w, r, nil)
 	utils.HandleErr(err)
-	initPeer(conn, ip, openPort)
+	peer := initPeer(conn, ip, openPort)
 	time.Sleep(20 * time.Second)
-	conn.WriteMessage(websocket.TextMessage, []byte("Hello from Port: 3000"))
+	peer.inbox <- []byte("Hello from 3000!")
 }
 
 func AddPeer(address, port, openPort string) {
 	// from :4000 wants to connect to :3000
 	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws?openPort=%s", address, port, openPort[1:]), nil)
 	utils.HandleErr(err)
-	initPeer(conn, address, port)
+	peer := initPeer(conn, address, port)
 	time.Sleep(10 * time.Second)
-	conn.WriteMessage(websocket.TextMessage, []byte("Hello from Port: 4000"))
+	peer.inbox <- []byte("Hello from 4000!")
 }
