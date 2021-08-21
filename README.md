@@ -26,7 +26,7 @@ Packages description
 
 ## Data race
 
-Occurs when accessing data to one data at the same time during multi-threading
+- Occurs when accessing data to one data at the same time during multi-threading
 
 ## External Dependency
 
