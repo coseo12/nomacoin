@@ -1,14 +1,13 @@
 package p2p
 
 import (
-	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/coseo12/nomacoin/utils"
 	"github.com/gorilla/websocket"
 )
 
+var conns []*websocket.Conn
 var upgrader = websocket.Upgrader{}
 
 func Upgrade(w http.ResponseWriter, r *http.Request) {
@@ -16,6 +15,7 @@ func Upgrade(w http.ResponseWriter, r *http.Request) {
 		return true
 	}
 	conn, err := upgrader.Upgrade(w, r, nil)
+	conns = append(conns, conn)
 	utils.HandleErr(err)
 	for {
 		_, p, err := conn.ReadMessage()
@@ -23,10 +23,10 @@ func Upgrade(w http.ResponseWriter, r *http.Request) {
 			conn.Close()
 			break
 		}
-		fmt.Printf("Just got: %s\n\n", p)
-		time.Sleep(2 * time.Second)
-		message := fmt.Sprintf("New Message:%s\n\n", p)
-		utils.HandleErr(
-			conn.WriteMessage(websocket.TextMessage, []byte(message)))
+		for _, aConn := range conns {
+			if aConn != conn {
+				utils.HandleErr(aConn.WriteMessage(websocket.TextMessage, []byte(p)))
+			}
+		}
 	}
 }
