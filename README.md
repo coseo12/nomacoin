@@ -22,9 +22,11 @@ Packages description
 
 - p2p: peer to peer network
 
-## Dependency
+## External Dependency
 
 - [Gorilla](https://github.com/gorilla/mux)
+
+- [Gorilla WebSocket](https://pkg.go.dev/github.com/gorilla/websocket)
 
 - [BoltDB](https://github.com/boltdb/bolt)
 
