@@ -2,25 +2,31 @@
 
 go mod init ${github}
 
+go run -race main.go -mode=rest -port=4000
+
 ## Packages
 
 Packages description
 
-- blockchain: Blockchain core
+- [x]blockchain: Blockchain core
 
-- explorer: Server side rendering in golang
+- [x]explorer: Server side rendering in golang
 
-- rest: REST API with mux
+- [x]rest: REST API with mux
 
-- utils: Used to blockchain utils
+- [x]utils: Used to blockchain utils
 
-- cli: Command Line Interface with flag
+- [x]cli: Command Line Interface with flag
 
-- db: Interface of database with BoltDB
+- [x]db: Interface of database with BoltDB
 
-- wallet: Wallet Packages
+- [x]wallet: Wallet Packages
 
-- p2p: peer to peer network
+- [ ]p2p: peer to peer network
+
+## Data race
+
+Occurs when accessing data to one data at the same time during multi-threading
 
 ## External Dependency
 
@@ -41,3 +47,5 @@ Packages description
 
 - [boltdbweb](https://github.com/evnix/boltdbweb)
   boltdbweb --db-name=blockchain.db
+
+- [bbolt](https://github.com/etcd-io/bbolt)
