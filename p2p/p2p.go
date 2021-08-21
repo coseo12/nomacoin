@@ -1,6 +1,7 @@
 package p2p
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/coseo12/nomacoin/utils"
@@ -10,6 +11,14 @@ import (
 var upgrader = websocket.Upgrader{}
 
 func Upgrade(w http.ResponseWriter, r *http.Request) {
-	_, err := upgrader.Upgrade(w, r, nil)
+	upgrader.CheckOrigin = func(r *http.Request) bool {
+		return true
+	}
+	conn, err := upgrader.Upgrade(w, r, nil)
 	utils.HandleErr(err)
+	for {
+		_, p, err := conn.ReadMessage()
+		utils.HandleErr(err)
+		fmt.Printf("%s\n", p)
+	}
 }
