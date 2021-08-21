@@ -1,32 +1,26 @@
 package p2p
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/coseo12/nomacoin/utils"
 	"github.com/gorilla/websocket"
 )
 
-var conns []*websocket.Conn
 var upgrader = websocket.Upgrader{}
 
 func Upgrade(w http.ResponseWriter, r *http.Request) {
+	// Port :3000 will upgrade the request from :4000
 	upgrader.CheckOrigin = func(r *http.Request) bool {
 		return true
 	}
 	conn, err := upgrader.Upgrade(w, r, nil)
-	conns = append(conns, conn)
 	utils.HandleErr(err)
-	for {
-		_, p, err := conn.ReadMessage()
-		if err != nil {
-			conn.Close()
-			break
-		}
-		for _, aConn := range conns {
-			if aConn != conn {
-				utils.HandleErr(aConn.WriteMessage(websocket.TextMessage, []byte(p)))
-			}
-		}
-	}
+}
+
+func AddPeer(address, port string) {
+	// from :4000 wants to connect to :3000
+	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws", address, port), nil)
+	utils.HandleErr(err)
 }
