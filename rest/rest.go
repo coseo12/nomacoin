@@ -104,6 +104,11 @@ func documentation(w http.ResponseWriter, r *http.Request) {
 			Method:      "GET",
 			Description: "Upgrade to Web Sockets",
 		},
+		{
+			URL:         url("/peer"),
+			Method:      "GET",
+			Description: "Get Peers",
+		},
 	}
 	json.NewEncoder(w).Encode(data)
 }
