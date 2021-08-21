@@ -47,8 +47,8 @@ type addTxPayload struct {
 }
 
 type addPeerPayload struct {
-	address string `json:"address"`
-	port    string `json:port`
+	Address string
+	Port    string
 }
 
 func documentation(w http.ResponseWriter, r *http.Request) {
@@ -187,8 +187,10 @@ func peers(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		var payload addPeerPayload
 		json.NewDecoder(r.Body).Decode(&payload)
-		p2p.AddPeer(payload.address, payload.port)
+		p2p.AddPeer(payload.Address, payload.Port)
 		w.WriteHeader(http.StatusOK)
+	case "GET":
+		json.NewEncoder(w).Encode(p2p.Peers)
 	}
 }
 

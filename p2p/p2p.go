@@ -17,10 +17,12 @@ func Upgrade(w http.ResponseWriter, r *http.Request) {
 	}
 	conn, err := upgrader.Upgrade(w, r, nil)
 	utils.HandleErr(err)
+	initPeer(conn, "address", "port")
 }
 
 func AddPeer(address, port string) {
 	// from :4000 wants to connect to :3000
 	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws", address, port), nil)
 	utils.HandleErr(err)
+	initPeer(conn, address, port)
 }
