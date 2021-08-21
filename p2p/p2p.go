@@ -3,7 +3,6 @@ package p2p
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/coseo12/nomacoin/utils"
 	"github.com/gorilla/websocket"
@@ -20,16 +19,12 @@ func Upgrade(w http.ResponseWriter, r *http.Request) {
 	}
 	conn, err := upgrader.Upgrade(w, r, nil)
 	utils.HandleErr(err)
-	peer := initPeer(conn, ip, openPort)
-	time.Sleep(20 * time.Second)
-	peer.inbox <- []byte("Hello from 3000!")
+	initPeer(conn, ip, openPort)
 }
 
 func AddPeer(address, port, openPort string) {
 	// from :4000 wants to connect to :3000
 	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws?openPort=%s", address, port, openPort[1:]), nil)
 	utils.HandleErr(err)
-	peer := initPeer(conn, address, port)
-	time.Sleep(10 * time.Second)
-	peer.inbox <- []byte("Hello from 4000!")
+	initPeer(conn, address, port)
 }
