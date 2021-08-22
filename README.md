@@ -20,7 +20,7 @@ Packages description
 
 - [x] wallet: Wallet Packages
 
-- [ ] p2p: peer to peer network
+- [x] p2p: peer to peer network
 
 - [ ] Unit Testing
 
