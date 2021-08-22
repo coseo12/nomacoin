@@ -1,7 +1,5 @@
 # Nomacoin
 
-go mod init ${github}
-
 go run -race main.go -mode=rest -port=4000
 
 ## Packages
