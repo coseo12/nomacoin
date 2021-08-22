@@ -2,7 +2,6 @@ package p2p
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/coseo12/nomacoin/blockchain"
 	"github.com/coseo12/nomacoin/utils"
@@ -36,11 +35,32 @@ func sendNewestBlock(p *peer) {
 	p.inbox <- m
 }
 
+func requestAllBlocks(p *peer) {
+	m := makeMessage(MessageAllBlocksRequest, nil)
+	p.inbox <- m
+}
+
+func sendAllBlock(p *peer) {
+	m := makeMessage(MessageAllBlocksResponse, blockchain.Blocks(blockchain.Blockchain()))
+	p.inbox <- m
+}
+
 func handleMsg(m *Message, p *peer) {
 	switch m.Kind {
 	case MessageNewestBlock:
 		var payload blockchain.Block
 		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
-		fmt.Println(payload)
+		b, err := blockchain.FindBlock((blockchain.Blockchain().NewestHash))
+		utils.HandleErr(err)
+		if payload.Height >= b.Height {
+			requestAllBlocks(p)
+		} else {
+			sendNewestBlock(p)
+		}
+	case MessageAllBlocksRequest:
+		sendAllBlock(p)
+	case MessageAllBlocksResponse:
+		var payload []blockchain.Block
+		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
 	}
 }
