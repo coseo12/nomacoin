@@ -8,21 +8,23 @@ go run -race main.go -mode=rest -port=4000
 
 Packages description
 
-- [x]blockchain: Blockchain core
+- [x] blockchain: Blockchain core
 
-- [x]explorer: Server side rendering in golang
+- [x] explorer: Server side rendering in golang
 
-- [x]rest: REST API with mux
+- [x] rest: REST API with mux
 
-- [x]utils: Used to blockchain utils
+- [x] utils: Used to blockchain utils
 
-- [x]cli: Command Line Interface with flag
+- [x] cli: Command Line Interface with flag
 
-- [x]db: Interface of database with BoltDB
+- [x] db: Interface of database with BoltDB
 
-- [x]wallet: Wallet Packages
+- [x] wallet: Wallet Packages
 
-- [ ]p2p: peer to peer network
+- [ ] p2p: peer to peer network
+
+- [ ] Unit Testing
 
 ## Data race
 
