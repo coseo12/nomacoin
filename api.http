@@ -10,28 +10,28 @@ http://localhost:4000/wallet
 ###
 http://localhost:4000/blocks
 ###
-POST http://localhost:3000/blocks
+POST http://localhost:5000/blocks
 ###
 http://localhost:4000/blocks/8382d7501e3740cb9de86f3027f94e4c068fd57f41f977c129477d01efbfa3c2d72752530fe735feebc874d5509b87f4702abc3a877c4002942d6e6cc5df8616
 
 ###
-POST http://localhost:4000/transactions
+POST http://localhost:5000/transactions
 
 {
     "to": "sco",
-    "amount": 50
+    "amount": 10
 }
 
 ###
 http://localhost:4000/balance/sco
 
 ###
-POST http://localhost:3000/peers
+POST http://localhost:2000/peers
 
 {
     "address": "127.0.0.1",
-    "port": "2000"
+    "port": "5000"
 }
 ###
-http://localhost:4000/peers
+http://localhost:5000/peers
 ###
