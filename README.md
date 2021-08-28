@@ -30,6 +30,12 @@ Packages description
 
 ## External Dependency
 
+- [Godoc](https://pkg.go.dev/golang.org/x/tools/cmd/godoc)
+
+```
+godoc -http=:6060
+```
+
 - [Gorilla](https://github.com/gorilla/mux)
 
 - [Gorilla WebSocket](https://pkg.go.dev/github.com/gorilla/websocket)
