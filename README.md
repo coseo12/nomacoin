@@ -24,6 +24,10 @@ Packages description
 
 - [ ] Unit Testing
 
+```
+ go test ./... -v
+```
+
 ## Data race
 
 - Occurs when accessing data to one data at the same time during multi-threading
