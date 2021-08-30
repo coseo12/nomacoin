@@ -30,13 +30,13 @@ Packages description
  go test ./... -v
 ```
 
-✨ Cover
+✨ Coverage
 
 ```
  go test -v -coverprofile cover.out ./...
 ```
 
-✨ Cover html
+✨ Coverage html
 
 ```
  go tool cover -html=cover.out
