@@ -27,19 +27,19 @@ Packages description
 ✨ Defulat
 
 ```
- go test ./... -v
+go test ./... -v
 ```
 
 ✨ Coverage
 
 ```
- go test -v -coverprofile cover.out ./...
+go test -v -coverprofile cover.out ./...
 ```
 
 ✨ Coverage html
 
 ```
- go tool cover -html=cover.out
+go tool cover -html=cover.out
 ```
 
 ## Data race
