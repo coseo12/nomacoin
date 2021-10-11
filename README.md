@@ -24,28 +24,28 @@ Packages description
 
 - [ ] Unit Testing
 
-✨ Defulat
+  ✨ Defulat
 
-```
-go test ./... -v
-```
+  ```
+  go test ./... -v
+  ```
 
-✨ Coverage
+  ✨ Coverage
 
-```
-go test -v -coverprofile cover.out ./...
-```
+  ```
+  go test -v -coverprofile cover.out ./...
+  ```
 
-✨ Coverage html
+  ✨ Coverage html
 
-```
-go tool cover -html=cover.out
-```
+  ```
+  go tool cover -html=cover.out
+  ```
 
-✨ Full command
-```
-go test -v -coverprofile cover.out ./... & go tool cover -html=cover.out
-```
+  ✨ Full command
+  ```
+  go test -v -coverprofile cover.out ./... & go tool cover -html=cover.out
+  ```
 
 ## Data race
 
