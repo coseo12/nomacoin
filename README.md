@@ -42,6 +42,11 @@ go test -v -coverprofile cover.out ./...
 go tool cover -html=cover.out
 ```
 
+✨ Full command
+```
+go test -v -coverprofile cover.out ./... & go tool cover -html=cover.out
+```
+
 ## Data race
 
 - Occurs when accessing data to one data at the same time during multi-threading
