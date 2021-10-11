@@ -56,7 +56,7 @@ func TestSplitter(t *testing.T) {
 	tests := []test{
 		{input: "0:6:0", sep: ":", index: 1, output: "6"},
 		{input: "0:6:0", sep: ":", index: 10, output: ""},
-		{input: "0:6:0", sep: "/", index: 1, output: "0:6:0"},
+		{input: "0:6:0", sep: "/", index: 1, output: ""},
 	}
 	for _, tc := range tests {
 		got := Splitter(tc.input, tc.sep, tc.index)

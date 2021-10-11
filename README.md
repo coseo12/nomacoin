@@ -44,7 +44,7 @@ Packages description
 
   ✨ Full command
   ```
-  go test -v -coverprofile cover.out ./... & go tool cover -html=cover.out
+  go test -v -coverprofile cover.out ./... && go tool cover -html=cover.out
   ```
 
 ## Data race

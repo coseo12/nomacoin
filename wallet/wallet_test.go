@@ -79,7 +79,7 @@ func TestVerify(t *testing.T) {
 	w := makeTestWallet()
 	tests := []test{
 		{input: testPayload, ok: true},
-		{input: testPayload, ok: false},
+		{input: testPayload, ok: true},
 		{input: "10094c1e71c89e8819a85f0f7e69968a35f53b2689644208b1ea1d05ae44f952", ok: false},
 	}
 	for _, tc := range tests {
