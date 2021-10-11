@@ -17,10 +17,11 @@ type blockchain struct {
 }
 
 type storage interface {
-	findBlock(hash string) []byte
-	saveBlock(hash string, data []byte)
-	saveChain(data []byte)
-	loadChain() []byte
+	FindBlock(hash string) []byte
+	LoadChain() []byte
+	SaveBlock(hash string, data []byte)
+	SaveChain(data []byte)
+	DeleteAllBlocks()
 }
 
 const (
@@ -32,7 +33,7 @@ const (
 
 var b *blockchain
 var once sync.Once
-var dbStorage storage
+var dbStorage storage = db.DB{}
 
 func (b *blockchain) restore(data []byte) {
 	utils.FromBytes(b, data)
@@ -48,7 +49,7 @@ func (b *blockchain) AddBlock() *Block {
 }
 
 func persistBlockchain(b *blockchain) {
-	dbStorage.saveChain(utils.ToBytes(b))
+	dbStorage.SaveChain(utils.ToBytes(b))
 }
 
 func Blocks(b *blockchain) []*Block {
@@ -149,7 +150,7 @@ func BalanceByAddress(address string, b *blockchain) int {
 func Blockchain() *blockchain {
 	once.Do(func() {
 		b = &blockchain{Height: 0}
-		checkpoint := dbStorage.loadChain()
+		checkpoint := dbStorage.LoadChain()
 		if checkpoint == nil {
 			b.AddBlock()
 		} else {
@@ -172,7 +173,7 @@ func (b *blockchain) Replace(newBlocks []*Block) {
 	b.Height = len(newBlocks)
 	b.NewestHash = newBlocks[0].Hash
 	persistBlockchain(b)
-	db.EmptyBlocks()
+	dbStorage.DeleteAllBlocks()
 	for _, block := range newBlocks {
 		persistBlock(block)
 	}

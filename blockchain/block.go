@@ -19,7 +19,7 @@ type Block struct {
 }
 
 func persistBlock(b *Block) {
-	dbStorage.saveBlock(b.Hash, utils.ToBytes(b))
+	dbStorage.SaveBlock(b.Hash, utils.ToBytes(b))
 }
 
 func (b *Block) restore(data []byte) {
@@ -29,7 +29,7 @@ func (b *Block) restore(data []byte) {
 var ErrNotFound = errors.New("Block not found")
 
 func FindBlock(hash string) (*Block, error) {
-	blockBytes := dbStorage.findBlock(hash)
+	blockBytes := dbStorage.FindBlock(hash)
 	if blockBytes == nil {
 		return nil, ErrNotFound
 	}
